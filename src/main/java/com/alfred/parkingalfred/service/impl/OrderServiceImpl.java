@@ -11,6 +11,7 @@ import com.alfred.parkingalfred.service.OrderService;
 import com.alfred.parkingalfred.utils.UUIDUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,8 +38,8 @@ public class OrderServiceImpl implements OrderService {
     public Order updateOrderStatusById(Long id, Order order) {
         Order orderFinded = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotExistedException(ResultEnum.RESOURCES_NOT_EXISTED));
-        orderFinded.setStatus(order.getStatus());
-        return orderRepository.save(orderFinded);
+        // orderFinded.setStatus(order.getStatus());
+        return orderRepository.save(order);
     }
 
     @Override
@@ -56,9 +57,9 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderId(UUIDUtil.generateUUID());
         return order;
     }
-    
+
     @Override
-    public List<Order> getOrdersByTypeAndStatus(Integer type,Integer status){
-        return orderRepository.findOrdersByTypeAndStatus(type,status);
+    public List<Order> getOrdersByStatus(Integer status){
+        return orderRepository.findOrdersByStatus(status);
     }
 }
